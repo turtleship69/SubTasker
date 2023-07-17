@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Load tasks from JSON file
+            $.getJSON('tasks.json', function(tasksData) {
+                var tasks = tasksData['subtasks'];
+
+                // Function to create the task list with proper indentation and paths
+                function createTaskList(tasks, level = 0, path = '') {
+                    var taskList = [];
+                    var taskPaths = {};
+
+                    for (var i = 0; i < tasks.length; i++) {
+                        var indent = '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(level); // Four spaces per level of indentation
+                        var task = tasks[i];
+                        var taskName = indent + task['name'];
+                        var taskPath = path + '/' + i;
+                        var indentedTaskName = level.toString() + '¬' + task['name'];
+                        taskList.push(taskName);
+                        taskPaths[indentedTaskName] = taskPath;
+
+                        var subtasks = task['subtasks'];
+                        if (subtasks) {
+                            var subtaskData = createTaskList(subtasks, level + 1, taskPath);
+                            taskList = taskList.concat(subtaskData[0]);
+                            Object.assign(taskPaths, subtaskData[1]);
+                        }
+                    }
+
+                    return [taskList, taskPaths];
+                }
+
+                // Create the task list for the UI
+                var taskData = createTaskList(tasks);
+                var taskList = taskData[0];
+                var taskPaths = taskData[1];
+
+                console.log("Task List:");
+                console.log(taskList);
+
+                // Add checkboxes to the task list
+                var taskListItems = '';
+                for (var i = 0; i < taskList.length; i++) {
+                    var task = taskList[i];
+                    taskListItems += '<input type="checkbox" id="checkbox-' + i + '" />' +
+                        '<label for="checkbox-' + i + '">' + task + '</label><br>';
+                }
+                $('#task-list').html(taskListItems);
+
+                // Event handler for selecting a task
+                $('#task-list input[type="checkbox"]').on('change', function() {
+                    var selectedTaskName = $(this).next('label').text();
+                    console.log(`selectedTaskName: ${selectedTaskName}`)
+                    //count how many sets of 4 spaces there are at the start
+                    var indentationLevel = selectedTaskName.search(/\S/)/4;
+                    console.log(`indentationLevel: ${indentationLevel}`)
+                    var taskName = selectedTaskName.trimStart();
+                    console.log(`taskName: ${taskName}`)
+                    var selectedTaskKey = `${indentationLevel}¬${taskName}`
+                    console.log(`selectedTaskKey: ${selectedTaskKey}`)
+                    var selectedTaskPath = taskPaths[selectedTaskKey];
+                    console.log(`selectedTaskPath: ${selectedTaskPath}`)
+
+                    // Reset the fields if the selected task is not found
+                    $('#name').val('');
+                    $('#due-date').val('');
+                    $('#details').val('');
+                    $('#image').val('');
+
+                    var pathIndices = selectedTaskPath.split('/').slice(1);
+                    var selectedTask = tasksData;
+
+                    for (var i = 0; i < pathIndices.length; i++) {
+                        var index = parseInt(pathIndices[i]);
+
+                        if (selectedTask['subtasks'] && selectedTask['subtasks'].length > index) {
+                            selectedTask = selectedTask['subtasks'][index];
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (selectedTask['name']) {
+                        $('#name').val(selectedTask['name']);
+                    }
+                    if (selectedTask['due_date']) {
+                        $('#due-date').val(selectedTask['due_date']);
+                    }
+                    if (selectedTask['details']) {
+                        $('#details').val(selectedTask['details']);
+                    }
+                    if (selectedTask['image_url']) {
+                        $('#image').val(selectedTask['image_url']);
+                    }
+                });
+
+                // Event handler for saving a task
+                $('#save').click(function() {
+                    var selectedTaskName = $('#task-list input[type="checkbox"]:checked').next('label').text();
+                    var indentationLevel = parseInt(selectedTaskName.split('¬')[0]);
+                    var taskName = selectedTaskName.split('¬')[1];
+                    var selectedTaskPath = taskPaths[selectedTaskName];
+
+                    var pathIndices = selectedTaskPath.split('/').slice(1);
+                    var selectedTask = tasksData;
+
+                    for (var i = 0; i < pathIndices.length; i++) {
+                        var index = parseInt(pathIndices[i]);
+                        selectedTask = selectedTask['subtasks'][index];
+                    }
+
+                    selectedTask['name'] = $('#name').val();
+                    selectedTask['due_date'] = $('#due-date').val();
+                    selectedTask['details'] = $('#details').val();
+                    selectedTask['image_url'] = $('#image').val();
+
+                    $.ajax({
+                        url: 'tasks.json',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(tasksData),
+                        success: function() {
+                            console.log('Task saved successfully.');
+                        }
+                    });
+                });
+
+                // Event handler for deleting a task
+                $('#delete').click(function() {
+                    var selectedTaskName = $('#task-list input[type="checkbox"]:checked').next('label').text();
+                    var indentationLevel = parseInt(selectedTaskName.split('¬')[0]);
+                    var taskName = selectedTaskName.split('¬')[1];
+                    var selectedTaskPath = taskPaths[selectedTaskName];
+
+                    var pathIndices = selectedTaskPath.split('/').slice(1);
+                    var parentTask = tasksData;
+                    var selectedTaskIndex = null;
+
+                    for (var i = 0; i < pathIndices.length - 1; i++) {
+                        var index = parseInt(pathIndices[i]);
+                        parentTask = parentTask['subtasks'][index];
+                    }
+                    selectedTaskIndex = parseInt(pathIndices[pathIndices.length - 1]);
+
+                    if (parentTask && parentTask['subtasks'] && selectedTaskIndex !== null) {
+                        var deletedTask = parentTask['subtasks'].splice(selectedTaskIndex, 1)[0];
+
+                        $.ajax({
+                            url: 'tasks.json',
+                            type: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify(tasksData),
+                            success: function() {
+                                console.log('Task deleted successfully.');
+                            }
+                        });
+
+                        if (confirm('Task deleted. Undo?')) {
+                            parentTask['subtasks'].splice(selectedTaskIndex, 0, deletedTask);
+                            $.ajax({
+                                url: 'tasks.json',
+                                type: 'PUT',
+                                contentType: 'application/json',
+                                data: JSON.stringify(tasksData),
+                                success: function() {
+                                    console.log('Task restored successfully.');
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <div id="task-list"></div>
+        <hr>
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" size="30">
+        </div>
+        <div>
+            <label for="due-date">Due Date:</label>
+            <input type="text" id="due-date" size="30">
+        </div>
+        <div>
+            <label for="details">Details:</label>
+            <textarea id="details" rows="5" cols="30"></textarea>
+        </div>
+        <div>
+            <label for="image">Image:</label>
+            <input type="text" id="image" size="30">
+        </div>
+        <div>
+            <button id="save">Save</button>
+            <button id="delete">Delete</button>
+        </div>
+    </div>
+</body>
+</html>

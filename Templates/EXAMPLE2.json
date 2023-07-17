@@ -1,0 +1,75 @@
+{
+    "task": "Complete project",
+    "completed": false,
+    "date": "2023-05-29",
+    "details": "This is the main task",
+    "subtasks": [
+      {
+        "task": "Create wireframe",
+        "completed": false,
+        "date": "",
+        "details": "",
+        "subtasks": [
+          {
+            "task": "Draw wireframe",
+            "completed": false,
+            "date": "",
+            "details": "",
+            "subtasks": []
+          },
+          {
+            "task": "Get feedback on wireframe",
+            "completed": false,
+            "date": "",
+            "details": "",
+            "subtasks": []
+          }
+        ]
+      },
+      {
+        "task": "Create mockup",
+        "completed": false,
+        "date": "",
+        "details": "",
+        "subtasks": [
+          {
+            "task": "Design mockup",
+            "completed": false,
+            "date": "",
+            "details": "",
+            "subtasks": []
+          },
+          {
+            "task": "Get feedback on mockup",
+            "completed": false,
+            "date": "",
+            "details": "",
+            "subtasks": []
+          }
+        ]
+      },
+      {
+        "task": "Develop app",
+        "completed": false,
+        "date": "",
+        "details": "",
+        "subtasks": [
+          {
+            "task": "Write code",
+            "completed": false,
+            "date": "",
+            "details": "",
+            "subtasks": []
+          },
+          {
+            "task": "Test app",
+            "completed": false,
+            "date": "",
+            "details": "",
+            "subtasks": []
+          }
+        ]
+      }
+    ]
+  }
+  

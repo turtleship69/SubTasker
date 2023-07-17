@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do List</title>
+    <style>
+        .selected-task {
+            background-color: #f0f0f0;
+        }
+        .selected-task label {
+            text-decoration: underline;
+        }
+        .completed-task label {
+            text-decoration: line-through;
+        }
+        .completed label {
+            text-decoration: line-through;
+        }
+    </style>
+    
+    <!-- <style>
+        .selected-task {
+            text-decoration: underline;
+        }
+
+        .completed-task label {
+            text-decoration: line-through;
+        }
+    </style> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Load tasks from JSON file
+            $.getJSON('tasks.json', function (tasksData) {
+                var tasks = tasksData['subtasks'];
+
+                // Function to create the task list with proper indentation and paths
+                function createTaskList(tasks, level = 0, path = '') {
+                    var taskList = [];
+                    var taskPaths = {};
+
+                    for (var i = 0; i < tasks.length; i++) {
+                        var indent = '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(level); // Four spaces per level of indentation
+                        var task = tasks[i];
+                        var taskName = indent + task['name'];
+                        var taskPath = path + '/' + i;
+                        var indentedTaskName = level.toString() + '¬' + task['name'];
+                        taskList.push(taskName);
+                        taskPaths[indentedTaskName] = taskPath;
+
+                        var subtasks = task['subtasks'];
+                        if (subtasks) {
+                            var subtaskData = createTaskList(subtasks, level + 1, taskPath);
+                            taskList = taskList.concat(subtaskData[0]);
+                            Object.assign(taskPaths, subtaskData[1]);
+                        }
+                    }
+
+                    return [taskList, taskPaths];
+                }
+
+                // Create the task list for the UI
+                var taskData = createTaskList(tasks);
+                var taskList = taskData[0];
+                var taskPaths = taskData[1];
+
+                console.log("Task List:");
+                console.log(taskList);
+
+                // Add checkboxes to the task list
+                var taskListItems = '';
+                for (var i = 0; i < taskList.length; i++) {
+                    var task = taskList[i];
+                    taskListItems += '<div>' +
+                        '<input type="checkbox" id="checkbox-' + i + '" />' +
+                        '<label>' + task + '</label></div>'; // for="checkbox-' + i + '"
+                }
+                $('#task-list').html(taskListItems);
+
+                // Event handler for selecting a task
+                $('#task-list div').click(function(e) {
+                    console.log(this)
+                    var checkbox = $(this).find('input[type="checkbox"]');
+                    if (!$(e.target).is(':checkbox')) {
+                        console.log("if")
+                        // Label or div clicked
+                        e.stopPropagation();
+                        
+                        // Add selected class to the div
+                        $('#task-list div').removeClass('selected-task');
+                        $(this).addClass('selected-task');
+                        return;
+                    } else {
+                        // Checkbox clicked
+                        console.log("else")
+                        $(this).toggleClass('completed-task');
+                        //checkbox.prop('checked', !checkbox.prop('checked'));
+                    }
+                
+                
+                    // Prevent checkbox event triggering
+                    e.stopPropagation();
+                });
+
+
+                /*
+                // Event handler for completing a task
+                $('#task-list').on('change', 'input[type="checkbox"]', function (e) {
+                    //e.stopPropagation();
+                    var label = $(this).next('label');
+                    label.toggleClass('completed-task');
+                });
+                */
+
+                // Event handler for saving a task
+                $('#save').click(function () {
+                    var selectedTaskName = $('#task-list input[type="checkbox"]:checked').next('label').text();
+                    var indentationLevel = parseInt(selectedTaskName.split('¬')[0]);
+                    var taskName = selectedTaskName.split('¬')[1];
+                    var selectedTaskPath = taskPaths[selectedTaskName];
+
+                    var pathIndices = selectedTaskPath.split('/').slice(1);
+                    var selectedTask = tasksData;
+
+                    for (var i = 0; i < pathIndices.length; i++) {
+                        var index = parseInt(pathIndices[i]);
+                        selectedTask = selectedTask['subtasks'][index];
+                    }
+
+                    selectedTask['name'] = $('#name').val();
+                    selectedTask['due_date'] = $('#due-date').val();
+                    selectedTask['details'] = $('#details').val();
+                    selectedTask['image_url'] = $('#image').val();
+
+                    $.ajax({
+                        url: 'tasks.json',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(tasksData),
+                        success: function () {
+                            console.log('Task saved successfully.');
+                        }
+                    });
+                });
+
+                // Event handler for deleting a task
+                $('#delete').click(function () {
+                    var selectedTaskName = $('#task-list input[type="checkbox"]:checked').next('label').text();
+                    var indentationLevel = parseInt(selectedTaskName.split('¬')[0]);
+                    var taskName = selectedTaskName.split('¬')[1];
+                    var selectedTaskPath = taskPaths[selectedTaskName];
+
+                    var pathIndices = selectedTaskPath.split('/').slice(1);
+                    var parentTask = tasksData;
+                    var selectedTaskIndex = null;
+
+                    for (var i = 0; i < pathIndices.length - 1; i++) {
+                        var index = parseInt(pathIndices[i]);
+                        parentTask = parentTask['subtasks'][index];
+                    }
+                    selectedTaskIndex = parseInt(pathIndices[pathIndices.length - 1]);
+
+                    if (parentTask && parentTask['subtasks'] && selectedTaskIndex !== null) {
+                        var deletedTask = parentTask['subtasks'].splice(selectedTaskIndex, 1)[0];
+
+                        $.ajax({
+                            url: 'tasks.json',
+                            type: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify(tasksData),
+                            success: function () {
+                                console.log('Task deleted successfully.');
+                            }
+                        });
+
+                        if (confirm('Task deleted. Undo?')) {
+                            parentTask['subtasks'].splice(selectedTaskIndex, 0, deletedTask);
+                            $.ajax({
+                                url: 'tasks.json',
+                                type: 'PUT',
+                                contentType: 'application/json',
+                                data: JSON.stringify(tasksData),
+                                success: function () {
+                                    console.log('Task restored successfully.');
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // Event handler for creating a new task
+                $('#new-task').click(function () {
+                    var selectedTaskName = $('#task-list div.selected-task label').text();
+                    var indentationLevel = parseInt(selectedTaskName.split('¬')[0]);
+                    var taskName = selectedTaskName.split('¬')[1];
+                    var selectedTaskPath = taskPaths[selectedTaskName];
+
+                    var pathIndices = selectedTaskPath.split('/').slice(1);
+                    var selectedTask = tasksData;
+
+                    for (var i = 0; i < pathIndices.length; i++) {
+                        var index = parseInt(pathIndices[i]);
+                        selectedTask = selectedTask['subtasks'][index];
+                    }
+
+                    var newTask = {
+                        name: $('#name').val(),
+                        due_date: $('#due-date').val(),
+                        details: $('#details').val(),
+                        image_url: $('#image').val(),
+                        subtasks: []
+                    };
+
+                    selectedTask['subtasks'].push(newTask);
+
+                    $.ajax({
+                        url: 'tasks.json',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(tasksData),
+                        success: function () {
+                            console.log('New task created successfully.');
+                        }
+                    });
+                });
+
+                // Event handler for updating the task details
+                $('#task-list div').click(function () {
+                    var selectedTaskName = $(this).find('label').text();
+                    var indentationLevel = selectedTaskName.search(/\S/) / 4;
+                    var taskName = selectedTaskName.trimStart();
+                    var selectedTaskPath = taskPaths[`${indentationLevel}¬${taskName}`];
+
+                    var pathIndices = selectedTaskPath.split('/').slice(1);
+                    var selectedTask = tasksData;
+
+                    for (var i = 0; i < pathIndices.length; i++) {
+                        var index = parseInt(pathIndices[i]);
+                        selectedTask = selectedTask['subtasks'][index];
+                    }
+
+                    $('#name').val(selectedTask['name']);
+                    $('#due-date').val(selectedTask['due_date']);
+                    $('#details').val(selectedTask['details']);
+                    $('#image').val(selectedTask['image_url']);
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <div id="task-list"></div>
+        <hr>
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" size="30">
+        </div>
+        <div>
+            <label for="due-date">Due Date:</label>
+            <input type="text" id="due-date" size="30">
+        </div>
+        <div>
+            <label for="details">Details:</label>
+            <textarea id="details" rows="5" cols="30"></textarea>
+        </div>
+        <div>
+            <label for="image">Image:</label>
+            <input type="text" id="image" size="30">
+        </div>
+        <div>
+            <button id="save">Save</button>
+            <button id="delete">Delete</button>
+            <button id="new-task">New Task</button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+copy EXAMPLE3.json tasks.json
