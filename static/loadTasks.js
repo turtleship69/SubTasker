@@ -57,7 +57,6 @@ function generateTaskDiv(taskName, taskPath) {
     collapsible.style.userSelect = "none";
     collapsible.innerHTML = "&plus;";
     collapsible.addEventListener("click", (event) => {
-        console.log("fold")
         event.preventDefault()
         event.stopPropagation();
         toggleTaskVisibility(taskPath, taskDiv, collapsible)

@@ -1,7 +1,5 @@
 // Event handler for task div click
 function handleTaskDivClick(taskDiv, taskPath) {
-    console.log("clcick!")
-
     // Remove selected-task class from the last selected div
     const lastSelectedTask = document.querySelector(".selected-task");
     if (lastSelectedTask) {
