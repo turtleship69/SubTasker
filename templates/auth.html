@@ -1,0 +1,19 @@
+<html lang="en-GB">
+<body>
+
+  <hanko-auth lang="en"/>
+
+  <script type="module">
+    import { register } from 'https://esm.run/@teamhanko/hanko-elements';
+
+    const { hanko } = await register("{{ API_URL }}");
+
+    hanko.onAuthFlowCompleted(() => {
+        // successfully logged in, redirect to a page in your application
+        document.location.href = "/auth2"
+    })
+  </script>
+
+  </body>
+
+</html>

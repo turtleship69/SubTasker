@@ -1,0 +1,32 @@
+<html lang="en">
+    <body>
+        {% if API_URL %}
+        
+    
+    
+      <script type="module">
+        import { register } from 'https://esm.run/@teamhanko/hanko-elements';
+          import { all } from "https://cdn.jsdelivr.net/npm/@teamhanko/hanko-elements/dist/i18n/all.js";
+    
+        const { hanko } = await register("{{ API_URL }}", {translations: all});
+    
+        document.getElementById("logout-link")
+          .addEventListener("click", (event) => {
+              event.preventDefault();
+              hanko.user.logout();
+          });
+    
+        hanko.onUserLoggedOut(() => {
+            // successfully logged out, redirect to a page in your application
+            document.location.href = "/"
+        })
+      </script>
+    
+          <p><a href="#" id="logout-link">Logout</a></p>
+      <hanko-profile lang="en"/>
+          {% else %}
+          Error: {{ error }}<br><a href="/auth">/auth</a>
+          {% endif %}
+          
+      </body>
+      </html>

@@ -1,0 +1,79 @@
+{
+  "name": "My To-Do List",
+  "subtasks": {
+    "c1f3a912-72e7-4c5e-81b2-82c4e987b5a1": {
+      "name": "Complete Project",
+      "due_date": "2023-07-10",
+      "details": "Finish all the tasks for the project",
+      "image_url": "https://example.com/project_image.jpg",
+      "subtasks": {
+        "cc6db587-02b4-4d13-af53-1e7b8a8bc0e9": {
+          "name": "Research",
+          "due_date": "2023-07-02",
+          "details": "Gather information and resources",
+          "image_url": "https://example.com/research_image.jpg",
+          "subtasks": {
+            "a9f0c3c1-b7d7-4bb1-97a3-486b3191d700": {
+              "name": "Read articles",
+              "due_date": "2023-07-03",
+              "details": "Go through relevant articles",
+              "image_url": "https://example.com/articles_image.jpg",
+              "subtasks": {}
+            },
+            "ee18bdaa-1425-42ad-a5d5-37298d8c8f90": {
+              "name": "Conduct interviews",
+              "due_date": "2023-07-05",
+              "details": "Interview experts for insights",
+              "image_url": "https://example.com/interviews_image.jpg",
+              "subtasks": {}
+            }
+          }
+        },
+        "f4c411f0-bbb5-4c26-b54e-7c7a60d4f8e2": {
+          "name": "Design",
+          "due_date": "2023-07-07",
+          "details": "Create the project design",
+          "image_url": "https://example.com/design_image.jpg",
+          "subtasks": {
+            "e5826c6b-717b-46a9-8fc5-7e9d169cd32a": {
+              "name": "Wireframing",
+              "due_date": "2023-07-08",
+              "details": "Create wireframes for the UI",
+              "image_url": "https://example.com/wireframes_image.jpg",
+              "subtasks": {}
+            },
+            "b860c33e-ef7d-4a5f-8eb0-17b1c296a22a": {
+              "name": "Visual design",
+              "due_date": "2023-07-09",
+              "details": "Finalize visual elements",
+              "image_url": "https://example.com/visual_design_image.jpg",
+              "subtasks": {}
+            }
+          }
+        }
+      }
+    },
+    "ed6f7ca2-2b27-4d1d-a1b7-4ae2fe9f8c6d": {
+      "name": "Shopping",
+      "due_date": "2023-07-15",
+      "details": "Buy groceries and household items",
+      "image_url": "https://example.com/shopping_image.jpg",
+      "subtasks": {
+        "68d5b6b6-1da7-4d9e-8df5-65713b3fe5c1": {
+          "name": "Groceries",
+          "due_date": "2023-07-12",
+          "details": "Buy fruits, vegetables, and other groceries",
+          "image_url": "https://example.com/groceries_image.jpg",
+          "subtasks": {}
+        },
+        "34f33f01-1180-4e13-a987-0c3e41a856b2": {
+          "name": "Household items",
+          "due_date": "2023-07-13",
+          "details": "Purchase cleaning supplies and toiletries",
+          "image_url": "https://example.com/household_items_image.jpg",
+          "subtasks": {}
+        }
+      }
+    }
+  }
+}

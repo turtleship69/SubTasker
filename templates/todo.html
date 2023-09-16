@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: comic sans ms,sans-serif;;
+        }
+        .selected-task {
+            background-color: #f0f0f0;
+            /*text-decoration: underline;*/
+        }
+
+        .selected-task .task-name {
+            text-decoration: underline;
+        }
+
+        .completed-task label {
+            text-decoration: line-through;
+        }
+    </style>
+    <style>
+        /* Styles for the overlay */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent background */
+            z-index: 1;
+            /* Ensure the overlay is on top */
+        }
+
+        /* Styles for the popup */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 40%;
+            height: 40%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            z-index: 2;
+            /* Ensure the popup is on top of the overlay */
+        }
+
+        /* Styles for the popup content */
+        #task-form {
+            position: relative;
+            margin: 30px;
+            /*top: 20%;
+            left: 20%;
+            width: 80%;
+            height: 80%;*/
+        }
+
+        /* Styles for the close button (x) */
+        #close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            font-family: sans-serif;
+        }
+        /* Styles for the tasks */
+        #task-list>div {
+            margin: 1px;
+        }
+    </style>
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"
+        integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
+</head>
+
+<body>
+    <div id="task-list">Loading...</div>
+    <hr>
+    <div id="selected-task-details">
+        <label for="name">Name:</label>
+        <input type="text" id="name" size="30" autocomplete="off">
+        <br>
+        <label for="due-date">Due Date:</label>
+        <input type="text" id="due-date" size="30" autocomplete="off">
+        <br>
+        <label for="details">Details:</label>
+        <textarea id="details" rows="5" cols="30" autocomplete="off"></textarea>
+        <br>
+        <label for="image">Image:</label>
+        <input type="text" id="image" size="30" autocomplete="off">
+        <br>
+    </div>
+    <button id="new">New Task</button>
+    <button id="delete" onclick="handleDeleteButtonClick()">Delete</button>
+    <button id="save changes" onclick="updateTask()">Save</button>
+    <div id="overlay" style="display: none;"></div>
+    <div id="popup" style="display: none;">
+        <div id="popup-content">
+            <span id="close-button">&times;</span>
+            <form id="task-form">
+                <label for="new_name">Name:</label>
+                <input type="text" id="new_name" required><br><br>
+                
+                <label for="new_due_date">Due Date:</label>
+                <input type="date" id="new_due_date"><br><br>
+
+                <label for="new_details">Details:</label><br>
+                <textarea id="new_details"></textarea><br><br>
+                
+                <label for="new_path">Path:</label>
+                <input type="text" id="new_path"><br><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+    <input type="hidden" id="path" name="path">
+
+    <!-- Managed by hanko -->
+    <p><a href="#" id="logout-link">Log out</a></p>
+    
+    <!--scripts-->
+    <!-- <script src="{{url_for('static', filename='helper.js')}}"></script>
+        <script src="{{url_for('static', filename='loadTasks.js')}}"></script>
+    <script src="{{url_for('static', filename='updateTasks.js')}}"></script> hi-->
+    <!-- hi -->
+
+    <script src="/static/helper.js"></script>
+    <script src="/static/loadTasks.js"></script>
+    <script src="/static/updateTasks.js"></script>
+    <script src="/static/newTask.js"></script>
+
+
+    <!-- <script src="{{url_for('static', filename='logout.js')}}"></script> -->
+    <script type="module">
+        import { register } from 'https://esm.run/@teamhanko/hanko-elements';
+        import { all } from "https://cdn.jsdelivr.net/npm/@teamhanko/hanko-elements/dist/i18n/all.js";
+        const { hanko } = await register("{{ API_URL }}", { translations: all });
+        document.getElementById("logout-link")
+            .addEventListener("click", (event) => {
+                event.preventDefault();
+                hanko.user.logout();
+                fetch("/logout");
+                setTimeout(function () { location.reload(); }, (40));
+            });
+    </script>
+</body>
+
+</html>

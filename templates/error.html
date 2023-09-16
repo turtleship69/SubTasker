@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>{{ error }}</title>
+    </head>
+    <body>
+        Error: {{ error }}
+
+        {% if clickable_link %}
+        <p><a href="{{ clickable_link.url }}">{{ clickable_link.title }}</a></p>
+        {% endif %}
+        {% if auto_link %}
+        <p id="timer"></p>
+        <script>
+            const timer = document.getElementById("timer");
+            
+            let countdown = 3;
+            
+            function updateTimer() {
+              timer.innerText = `Going to {{ auto_link }} in ${countdown}...`;
+            
+              if (countdown === 0) {
+                window.location.href = "{{ auto_link }}";
+              } else {
+                countdown--;
+                setTimeout(updateTimer, 1000);
+              }
+            }
+            
+            updateTimer();
+        </script>
+        {% endif %}
+    </body>

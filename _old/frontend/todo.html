@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do List</title>
+    <meta http-equiv="Permissions-Policy" content="browsing-topics=()">
+    <style>
+        .selected-task {
+            background-color: #f0f0f0;
+            /*text-decoration: underline;*/
+        }
+
+        .selected-task .task-name {
+            text-decoration: underline;
+        }
+
+        .completed-task label {
+            text-decoration: line-through;
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"
+        integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
+    </head>
+    
+    <body>
+        <div id="task-list">Loading...</div>
+        <hr>
+        <div id="selected-task-details">
+            <label for="name">Name:</label>
+            <input type="text" id="name" size="30" autocomplete="off">
+            <br>
+            <label for="due-date">Due Date:</label>
+            <input type="text" id="due-date" size="30" autocomplete="off">
+            <br>
+            <label for="details">Details:</label>
+            <textarea id="details" rows="5" cols="30" autocomplete="off"></textarea>
+            <br>
+            <label for="image">Image:</label>
+            <input type="text" id="image" size="30" autocomplete="off">
+            <br>
+            <button id="new-task">New Task</button>
+            <button id="delete">Delete</button>
+            <button id="save">Sync</button>
+        </div>
+
+        <!--scripts-->
+        <script src="helper.js"></script>
+        <script src="loadTasks.js"></script>
+        <script src="updateTasks.js"></script>
+    </body>
+
+    </html>

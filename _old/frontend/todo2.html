@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do List</title>
+    <style>
+        .selected-task {
+            background-color: #f0f0f0;
+        }
+        .selected-task label {
+            text-decoration: underline;
+        }
+        .completed-task label {
+            text-decoration: line-through;
+        }
+        .completed label {
+            text-decoration: line-through;
+        }
+    </style>
+    
+    <!-- <style>
+        .selected-task {
+            text-decoration: underline;
+        }
+
+        .completed-task label {
+            text-decoration: line-through;
+        }
+    </style> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div>
+        <div id="task-list"></div>
+        <hr>
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" size="30">
+        </div>
+        <div>
+            <label for="due-date">Due Date:</label>
+            <input type="text" id="due-date" size="30">
+        </div>
+        <div>
+            <label for="details">Details:</label>
+            <textarea id="details" rows="5" cols="30"></textarea>
+        </div>
+        <div>
+            <label for="image">Image:</label>
+            <input type="text" id="image" size="30">
+        </div>
+        <div>
+            <button id="save">Save</button>
+            <button id="delete">Delete</button>
+            <button id="new-task">New Task</button>
+        </div>
+    </div>
+</body>
+
+</html>
