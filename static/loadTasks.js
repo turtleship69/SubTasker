@@ -1,12 +1,6 @@
 // define globals
 var taskList;
 var pathsList;
-var changes = {
-    "new": [],
-    "completed": [],
-    "deleted": [],
-    "updated": []
-};
 
 
 //fetch tasks from tasks.json
@@ -25,7 +19,6 @@ function getTasks() {
         console.error('Error fetching tasks.json:', request.status, request.statusText);
     }
 }
-
 
 
 //generate a single leveled list of tasks
@@ -56,11 +49,12 @@ function generateTaskDiv(taskName, taskPath) {
     const collapsible = document.createElement("span");
     collapsible.style.userSelect = "none";
     collapsible.innerHTML = "&plus;";
+    collapsible.classList.add("collapsible");
     collapsible.addEventListener("click", (event) => {
-        event.preventDefault()
+        event.preventDefault();
         event.stopPropagation();
-        toggleTaskVisibility(taskPath, taskDiv, collapsible)
-        return false
+        toggleTaskVisibility(taskPath, taskDiv, collapsible);
+        return false;
     })
 
     const checkbox = document.createElement("input");
@@ -117,3 +111,9 @@ pathsList.forEach(element => console.log(element.toString()));
 
 // Run the function to add task divs to the "task-list" div
 addTaskDivsToTaskList(pathsList);
+
+
+let tasksToCollapse = getLocal();
+tasksToCollapse.forEach(task => {
+    hideTasks(task)
+});

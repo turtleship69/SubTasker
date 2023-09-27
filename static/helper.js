@@ -23,6 +23,10 @@ function getTaskDetails(taskList, path) {
 }
 
 function hideTasks(path) {
+    document.querySelector(`[data-path="${path}"]`).setAttribute("data-visible", "false");
+    document.querySelector(`div[data-path="${path}"] > span.collapsible`).innerHTML = "&minus;"; 
+
+
     // Select all div elements with a "data-path" attribute that starts with the given path
     const divsToHide = document.querySelectorAll(`[data-path^="${path}"]`);
 
@@ -37,6 +41,10 @@ function hideTasks(path) {
 }
 
 function showTasks(path) {
+    document.querySelector(`[data-path="${path}"]`).setAttribute("data-visible", "true");
+    document.querySelector(`div[data-path="${path}"] > span.collapsible`).innerHTML = "&plus;"; 
+
+
     // Select all div elements with a "data-path" attribute that starts with the given path
     const divsToShow = document.querySelectorAll(`[data-path^="${path}"]`);
 
@@ -47,14 +55,89 @@ function showTasks(path) {
     });
 }
 
-function toggleTaskVisibility(path, taskDiv, collapsible) {
-    if (taskDiv.getAttribute("data-visible") === "true") {
-        hideTasks(path);
-        taskDiv.setAttribute("data-visible", "false");
-        collapsible.innerHTML = "&minus;"
+
+
+
+
+// // Function to add a string to local storage
+// function addToLocal(value) {
+//     // Get the current value from local storage
+//     const currentValue = localStorage.getItem("collapsed");
+
+//     // If there's already a value, append the new value with a ";"
+//     const updatedValue = currentValue ? currentValue + ";" + value : value;
+
+//     // Store the updated value in local storage
+//     localStorage.setItem("collapsed", updatedValue);
+// }
+
+// Function to remove a string from local storage
+
+// Function to add a string to local storage
+function addToLocal(value) {
+    // Get the current value from local storage
+    const currentValue = localStorage.getItem("collapsed");
+  
+    if (!currentValue) {
+      // If there's no current value, simply store the new value
+      localStorage.setItem("collapsed", value);
     } else {
-        showTasks(path);
-        taskDiv.setAttribute("data-visible", "true");
-        collapsible.innerHTML = "&plus;"
+      // Split the current value into an array using ";" as the delimiter
+      const valuesArray = currentValue.split(";");
+  
+      // Check if the new value is already the start of another string in the list
+      const indexToRemove = valuesArray.findIndex(item => item.startsWith(value));
+  
+      if (indexToRemove !== -1) {
+        // If a matching value is found, remove it from the array
+        valuesArray.splice(indexToRemove, 1);
+      }
+  
+      // Add the new value to the beginning of the array
+      valuesArray.unshift(value);
+  
+      // Join the updated array back into a single string with ";" as the delimiter
+      const updatedValue = valuesArray.join(";");
+  
+      // Store the updated value in local storage
+      localStorage.setItem("collapsed", updatedValue);
     }
+  }
+  
+
+function removeFromLocal(value) {
+    // Get the current value from local storage
+    const currentValue = localStorage.getItem("collapsed");
+
+    // If there's no current value, nothing to remove
+    if (!currentValue) { return; }
+
+    // Split the current value into an array using ";" as the delimiter
+    const valuesArray = currentValue.split(";");
+
+    // Remove the specified value from the array
+    const updatedArray = valuesArray.filter(item => item !== value);
+
+    // Join the updated array back into a single string with ";" as the delimiter
+    const updatedValue = updatedArray.join(";");
+
+    // Store the updated value in local storage
+    localStorage.setItem("collapsed", updatedValue);
+}
+
+// Function to get the list of strings from local storage
+function getLocal() {
+    // Get the current value from local storage
+    const currentValue = localStorage.getItem("collapsed");
+
+    // If there's no current value, return an empty array
+    if (!currentValue) {
+        return [];
+    }
+
+    // Split the current value into an array using ";" as the delimiter
+    const valuesArray = currentValue.split(";");
+
+    // Return the array of strings
+    return valuesArray;
 }

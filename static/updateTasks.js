@@ -58,9 +58,6 @@ function handleCheckmarkClick(taskPath, taskDiv) {
     })
 }
 
-
-// const deleteButton = document.getElementById("delete");
-// deleteButton.addEventListener("click",
 function handleDeleteButtonClick() {
     // Find all elements with the class "selected-task"
     const selectedTasks = document.querySelectorAll(".selected-task");
@@ -108,7 +105,23 @@ function handleDeleteButtonClick() {
         // If there are more than one selected tasks, log a message
         console.log("Multiple tasks are selected. Please select only one task to delete.");
     }
-}// ); 
+}
+
+function toggleTaskVisibility(path, taskDiv, collapsible) {
+    if (taskDiv.getAttribute("data-visible") === "true") {
+        hideTasks(path);
+        // taskDiv.setAttribute("data-visible", "false");
+        // collapsible.innerHTML = "&minus;"
+
+        addToLocal(path);
+    } else {
+        showTasks(path);
+        // taskDiv.setAttribute("data-visible", "true");
+        // collapsible.innerHTML = "&plus;"
+
+        removeFromLocal(path);
+    }
+}
 
 function updateTask() {
     let body = {
@@ -136,3 +149,4 @@ function updateTask() {
         }
     });
 }
+
