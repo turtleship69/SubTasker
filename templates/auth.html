@@ -10,7 +10,12 @@
 
     hanko.onAuthFlowCompleted(() => {
         // successfully logged in, redirect to a page in your application
-        document.location.href = "/auth2"
+        let forward_url = "/auth2"
+        let redirect_url = new URLSearchParams(window.location.search).get('redirect_url')
+        if(redirect_url) {
+          forward_url = forward_url + "?redirect_url=" + redirect_url
+        }
+        document.location.href = forward_url
     })
   </script>
 

@@ -1,0 +1,14 @@
+<body>
+    <hanko-profile />
+
+    <script type="module">
+        import { register } from "https://esm.run/@teamhanko/hanko-elements";
+        const { hanko } = await register("{{ API_URL }}");
+
+        await register("{{ API_URL }}");
+        
+        if (!hanko.session.isValid()) {
+            document.location.href = "/auth?redirect_url=account"
+        }
+    </script>
+</body>

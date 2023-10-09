@@ -59,6 +59,9 @@ def auth2():
     if not os.path.exists(f"tasks/{payload['sub']}.json"):
         with open(f"tasks/{payload['sub']}.json", "w") as f: 
             f.write(DEFAULT_TASKS_LIST)
+    redirect_url = request.args.get("redirect_url")
+    if redirect_url:
+        return redirect(f"/{redirect_url}")
     return redirect("/")
 
 @app.route("/auth_check")
@@ -67,6 +70,10 @@ def auth_check():
         return sessions[session["biscuit"]]
     else: 
         return "No session found"
+
+@app.route("/account")
+def account():
+    return render_template("account.html", API_URL=API_URL)
 
 @app.route("/post_auth")
 def post_auth():
@@ -292,10 +299,9 @@ def favicon():
 
 
 
-# No cacheing at all for API endpoints.
+# No caching at all for API endpoints.
 @app.after_request
 def add_header(response):
-    # response.cache_control.no_store = True
     if 'Cache-Control' not in response.headers:
         response.headers['Cache-Control'] = 'no-store'
     return response
