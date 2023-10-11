@@ -9,7 +9,7 @@ from uuid import uuid4
 from config import API_URL, public_keys, AUDIENCE
 
 app = Flask(__name__)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = secrets.token_hex()
 
 
 # store session keys
