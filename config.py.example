@@ -1,6 +1,6 @@
 import requests, jwt
 
-API_URL = "I"
+API_URL = "Insert url here"
 
 AUDIENCE = "localhost"
 
