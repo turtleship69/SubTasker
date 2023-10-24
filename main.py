@@ -296,7 +296,10 @@ def favicon():
     return send_from_directory(app.root_path,
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-
+@app.route('/manifest.json')
+def get_manifest():
+    with open('static/manifest.json') as f:
+        return jsonify(json.load(f))
 
 
 # No caching at all for API endpoints.
