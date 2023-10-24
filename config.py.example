@@ -1,6 +1,6 @@
 import requests, jwt
 
-API_URL = "https://86480f40-596b-4bb1-a8b1-8bb9f84b26b5.hanko.io"
+API_URL = "I"
 
 AUDIENCE = "localhost"
 
