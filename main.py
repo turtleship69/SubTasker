@@ -24,7 +24,10 @@ def index():
     sesh = session.get("biscuit")
     if sesh == None or sesh not in sessions.keys():
         session.clear()
-        return render_template("home.html")
+        #if the user is still wuthenticated with hanko, auto log in
+        #otherwise, ask to login
+        return redirect("/auth2")
+        # return render_template("home.html")
     return render_template("todo.html", API_URL=API_URL)
 
 @app.route("/auth")
