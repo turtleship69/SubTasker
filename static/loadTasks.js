@@ -83,7 +83,6 @@ function generateTaskDiv(taskName, taskPath, taskDetails = "") {
     taskDiv.appendChild(taskText);
 
     //check if details starts with url, and add quick link™
-    console.log(`${taskDetails}: ${taskDetails.substring(0, 8) == "https://" || taskDetails.substring(0, 7) == "http://"}`)
     if (taskDetails.substring(0, 8) == "https://" || taskDetails.substring(0, 7) == "http://") {
         const url = taskDetails.split(' ')[0];
 
