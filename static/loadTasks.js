@@ -28,8 +28,9 @@ function generateTaskList(taskList, parentPath = "", result = []) {
     for (const [taskId, subtask] of Object.entries(taskList.subtasks)) {
         const taskName = subtask.name;
         const taskPath = parentPath + (parentPath ? "/subtasks/" : "") + taskId;
+        const taskDetails = subtask.details;
 
-        result.push({ name: taskName, path: taskPath, id: taskId });
+        result.push({ name: taskName, path: taskPath, details: taskDetails, id: taskId });
 
         if (typeof subtask.subtasks === "object" && Object.keys(subtask.subtasks).length > 0) {
             generateTaskList(subtask, taskPath, result);
@@ -39,7 +40,7 @@ function generateTaskList(taskList, parentPath = "", result = []) {
 }
 
 //generate Divs For each task
-function generateTaskDiv(taskName, taskPath) {
+function generateTaskDiv(taskName, taskPath, taskDetails = "") {
     const normalizedTaskName = normalize(taskName);
     const taskDiv = document.createElement("div");
     taskDiv.id = normalizedTaskName;
@@ -81,6 +82,23 @@ function generateTaskDiv(taskName, taskPath) {
     taskDiv.appendChild(indent);
     taskDiv.appendChild(taskText);
 
+    //check if details starts with url, and add quick link™
+    console.log(`${taskDetails}: ${taskDetails.substring(0, 8) == "https://" || taskDetails.substring(0, 7) == "http://"}`)
+    if (taskDetails.substring(0, 8) == "https://" || taskDetails.substring(0, 7) == "http://") {
+        const url = taskDetails.split(' ')[0];
+
+        anchor = document.createElement("a")
+        anchor.href = url
+
+        anchor.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" style="vertical-align: middle; margin-left: 2px;">
+        <path
+            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+        </svg>`
+
+        taskDiv.appendChild(anchor);   
+    }
+
+
     return taskDiv;
 }
 
@@ -89,8 +107,8 @@ function addTaskDivsToTaskList(pathsList, taskList) {
     taskListDiv.innerHTML = ""; // Clear the previous contents
 
     pathsList.forEach((pathItem) => {
-        const { name: taskName, path: taskPath, id: taskId } = pathItem;
-        const taskDiv = generateTaskDiv(taskName, taskPath);
+        const { name: taskName, path: taskPath, details: taskDetails, id: taskId } = pathItem;
+        const taskDiv = generateTaskDiv(taskName, taskPath, taskDetails);
 
         // Attach the click event listener to the taskDiv
         taskDiv.addEventListener("click", () => handleTaskDivClick(taskDiv, taskPath));
