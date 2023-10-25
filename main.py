@@ -172,7 +172,7 @@ def create_task():
 
 
     path = task_data.get("path")
-    print(f"Path: {path}")
+    #print(f"Path: {path}")
 
     if not path: 
         tasks["subtasks"][ID] = task
@@ -182,13 +182,13 @@ def create_task():
         for i in path:
             parent = parent[i]
         parent["subtasks"][ID] = task
-        print(parent)
+        #print(parent)
 
 
     with open(task_file_path, 'w') as file:
         json.dump(tasks, file, indent=4)
 
-    pprint(tasks, depth=2)
+    #pprint(tasks, depth=2)
 
     return jsonify({'message': 'Task created successfully'})
 
@@ -212,7 +212,7 @@ def delete_task():
         parent = parent[i]
     #parent = parent["subtasks"]
     parent.pop(path.split("/")[-1])
-    print(parent)
+    #print(parent)
 
     with open(task_file_path, 'w') as file:
         json.dump(tasks, file, indent=4)
@@ -230,11 +230,11 @@ def modify_task():
     path = request.json["path"]
 
     parent = tasks["subtasks"]
-    print(path.split("/"))
+    #print(path.split("/"))
     for i in path.split("/"):
         parent = parent[i]
     #parent = parent["subtasks"]
-    pprint(parent, depth=1, sort_dicts=False)
+    #pprint(parent, depth=1, sort_dicts=False)
 
 
     #task_data = request.get_json()  # Assuming the modified task data is sent in the request body
@@ -248,7 +248,7 @@ def modify_task():
     for key, value in task_data.items():
         parent[key] = value
 
-    pprint(tasks)
+    #pprint(tasks)
 
     with open(task_file_path, 'w') as file:
         json.dump(tasks, file, indent=4)
