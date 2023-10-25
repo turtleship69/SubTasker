@@ -89,6 +89,7 @@ function generateTaskDiv(taskName, taskPath, taskDetails = "") {
 
         anchor = document.createElement("a")
         anchor.href = url
+        anchor.target = "_blank"
 
         anchor.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" style="vertical-align: middle; margin-left: 2px;">
         <path
