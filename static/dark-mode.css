@@ -6,4 +6,8 @@
     .selected-task {
         background-color: #515151;
     }
+
+    #popup {
+        background-color: #333333;
+    }
 }

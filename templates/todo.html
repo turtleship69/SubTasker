@@ -4,19 +4,13 @@
 <head>
     <title>To-Do List</title>
     <style>
+        body { font-family: comic sans ms, sans-serif; }
 
-        body {
-            font-family: comic sans ms, sans-serif;
-        }
+        .selected-task { background-color: #f0f0f0; }
 
-        .selected-task {
-            background-color: #f0f0f0;
-        }
+        .selected-task .task-name { text-decoration: underline; }
 
-        .selected-task .task-name {
-            text-decoration: underline;
-        }
-
+        svg.QuickLink { fill: hotpink }
 
         /* Styles for the overlay behing the new task form */
         #overlay {
@@ -71,6 +65,8 @@
         #task-list>div {
             margin: 1px;
         }
+
+
     </style>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"
@@ -86,8 +82,6 @@
     <div id="task-list">Loading...</div>
     <hr>
     <button id="new">New Task</button>
-    <button id="delete" onclick="handleDeleteButtonClick()">Delete</button>
-    <button id="save changes" onclick="updateTask()">Save</button>
     <div id="selected-task-details" style="display: none;">
         <label for="name">Name:</label>
         <input type="text" id="name" size="30" autocomplete="off">
@@ -101,10 +95,12 @@
         <label for="image">Image:</label>
         <input type="text" id="image" size="30" autocomplete="off">
         <br>
+        <button id="delete" onclick="handleDeleteButtonClick()">Delete</button>
+        <button id="save changes" onclick="updateTask()">Save</button>
     </div>
     <div id="overlay" style="display: none;"></div>
     <div id="popup" style="display: none;">
-        <div id="popup-content">
+        <!-- <div id="popup-content"> -->
             <span id="close-button">&times;</span>
             <form id="task-form">
                 <label for="new_name">Name:</label>
@@ -121,7 +117,7 @@
 
                 <input type="submit" value="Submit">
             </form>
-        </div>
+        <!-- </div> -->
     </div>
     <input type="hidden" id="path" name="path">
 
