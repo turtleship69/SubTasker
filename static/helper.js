@@ -11,7 +11,7 @@ function normalize(str) {
     return normalizedStr;
 }
 
-function getTaskDetails(taskList, path) {
+function getTaskDetailsWithLodash(taskList, path) {
     // Use lodash's _.get method to access the task object at the specified path
     fullPath = "subtasks." + path.replaceAll("/", ".");
     //console.log(fullPath);
@@ -19,6 +19,23 @@ function getTaskDetails(taskList, path) {
 
     // Return the entire task details found at the specified path
     //console.log(task);
+    return task;
+}
+
+function getTaskDetails(taskList, path) {
+    const fullPath = "subtasks." + path.replaceAll("/", ".");
+    const keys = fullPath.split(".");
+    let task = taskList;
+    
+    for (const key of keys) {
+        if (task.hasOwnProperty(key)) {
+            task = task[key];
+        } else {
+            task = undefined;
+            break;
+        }
+    }
+    
     return task;
 }
 
