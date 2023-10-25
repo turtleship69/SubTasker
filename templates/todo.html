@@ -4,20 +4,18 @@
 <head>
     <title>To-Do List</title>
     <style>
+
         body {
-            font-family: comic sans ms,sans-serif;;
+            font-family: comic sans ms, sans-serif;
+            ;
         }
+
         .selected-task {
             background-color: #f0f0f0;
-            /*text-decoration: underline;*/
         }
 
         .selected-task .task-name {
             text-decoration: underline;
-        }
-
-        .completed-task label {
-            text-decoration: line-through;
         }
 
 
@@ -69,20 +67,20 @@
             font-size: 18px;
             font-family: sans-serif;
         }
+
         /* Styles for the tasks */
         #task-list>div {
             margin: 1px;
         }
-
-
     </style>
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"
         integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" href="/static/style.css"> -->
     <!-- <link rel="manifest" href="manifest.json" />  -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="/static/dark-mode.css">
 </head>
 
 <body>
@@ -112,13 +110,13 @@
             <form id="task-form">
                 <label for="new_name">Name:</label>
                 <input type="text" id="new_name" required><br><br>
-                
+
                 <label for="new_due_date">Due Date:</label>
                 <input type="date" id="new_due_date"><br><br>
 
                 <label for="new_details">Details:</label><br>
                 <textarea id="new_details" style="width: 80%;"></textarea><br><br>
-                
+
                 <!-- <label for="new_path">Path:</label> -->
                 <input type="hidden" id="new_path">
 
@@ -131,7 +129,7 @@
     <!-- Managed by hanko -->
     <p><a href="#" id="logout-link">Log out</a></p>
     <p><a href="/account">Manage account</a></p>
-    
+
     <!--scripts-->
     <!-- <script src="{{url_for('static', filename='helper.js')}}"></script>
         <script src="{{url_for('static', filename='loadTasks.js')}}"></script>

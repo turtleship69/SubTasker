@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in to SubTasker</title>
-  </head>
+
+<head>
+  <title>Log in to SubTasker</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark" />
+  <link rel="stylesheet" href="/static/dark-mode.css">
+  <link rel="stylesheet" href="/static/hanko.css">
+</head>
+
 <body>
 
-  <hanko-auth lang="en"/>
+  <hanko-auth lang="en" />
 
   <script type="module">
     import { register } from 'https://esm.run/@teamhanko/hanko-elements';
@@ -15,16 +20,16 @@
     const { hanko } = await register("{{ API_URL }}");
 
     hanko.onAuthFlowCompleted(() => {
-        // successfully logged in, redirect to a page in your application
-        let forward_url = "/auth2"
-        let redirect_url = new URLSearchParams(window.location.search).get('redirect_url')
-        if(redirect_url) {
-          forward_url = forward_url + "?redirect_url=" + redirect_url
-        }
-        document.location.href = forward_url
+      // successfully logged in, redirect to a page in your application
+      let forward_url = "/auth2"
+      let redirect_url = new URLSearchParams(window.location.search).get('redirect_url')
+      if (redirect_url) {
+        forward_url = forward_url + "?redirect_url=" + redirect_url
+      }
+      document.location.href = forward_url
     })
   </script>
 
-  </body>
+</body>
 
 </html>
