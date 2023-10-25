@@ -6,6 +6,8 @@ function handleTaskDivClick(taskDiv, taskPath) {
         lastSelectedTask.classList.remove("selected-task");
     }
     if (lastSelectedTask != taskDiv) {
+        document.getElementById("selected-task-details").style.display = "block";
+
         // Add the selected-task class to the clicked div
         taskDiv.classList.add("selected-task");
 
@@ -26,6 +28,8 @@ function handleTaskDivClick(taskDiv, taskPath) {
         document.getElementById("details").value = "";
         document.getElementById("image").value = "";
         document.getElementById("path").value = "";
+
+        document.getElementById("selected-task-details").style.display = "none";
     }
 }
 
