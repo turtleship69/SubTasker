@@ -9,6 +9,8 @@ newButton.addEventListener("click", () => {
     overlay.style.display = "block";
     popup.style.display = "block";
     document.getElementById("new_path").value = document.getElementById("path").value
+
+    document.getElementById("new_name").focus()
 });
 
 // Function to close the popup

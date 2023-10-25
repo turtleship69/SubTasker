@@ -88,6 +88,9 @@
 <body>
     <div id="task-list">Loading...</div>
     <hr>
+    <button id="new">New Task</button>
+    <button id="delete" onclick="handleDeleteButtonClick()">Delete</button>
+    <button id="save changes" onclick="updateTask()">Save</button>
     <div id="selected-task-details" style="display: none;">
         <label for="name">Name:</label>
         <input type="text" id="name" size="30" autocomplete="off">
@@ -102,9 +105,6 @@
         <input type="text" id="image" size="30" autocomplete="off">
         <br>
     </div>
-    <button id="new">New Task</button>
-    <button id="delete" onclick="handleDeleteButtonClick()">Delete</button>
-    <button id="save changes" onclick="updateTask()">Save</button>
     <div id="overlay" style="display: none;"></div>
     <div id="popup" style="display: none;">
         <div id="popup-content">
@@ -117,10 +117,10 @@
                 <input type="date" id="new_due_date"><br><br>
 
                 <label for="new_details">Details:</label><br>
-                <textarea id="new_details"></textarea><br><br>
+                <textarea id="new_details" style="width: 80%;"></textarea><br><br>
                 
-                <label for="new_path">Path:</label>
-                <input type="text" id="new_path"><br><br>
+                <!-- <label for="new_path">Path:</label> -->
+                <input type="hidden" id="new_path">
 
                 <input type="submit" value="Submit">
             </form>
@@ -130,6 +130,7 @@
 
     <!-- Managed by hanko -->
     <p><a href="#" id="logout-link">Log out</a></p>
+    <p><a href="/account">Manage account</a></p>
     
     <!--scripts-->
     <!-- <script src="{{url_for('static', filename='helper.js')}}"></script>
