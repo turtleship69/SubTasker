@@ -15,13 +15,14 @@ Subtasker is a to-do list web application designed to help you stay organized an
 - Frontend: HTML, JavaScript
 - Authentication: Hanko
 
-## Hosting
+## Self Hosting
 
 1. Clone the repository.
 2. Install the required dependencies using `pip install -r requirements.txt`.
 3. Update the AUDIENCE (domain you are hosting on, localhost is the easiest option as a secure origin in required to use passkeys) and HANKO_URL (sign up for [Hanko cloud](https://hanko.io) for free) in [config.py](config.py).
 4. Run the Flask development server using `python main.py`.
-5. Access the application in your browser at `http://localhost` (or on your LAN/WAN ip on port 80).
+5. Access the application in your browser at `http://localhost` (or on your LAN/WAN ip on port 80).  
+   Note that a secure context is needed for passkeys, so you need to either use localhost or a domain with https. 
 
 ## Usage
 
