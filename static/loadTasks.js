@@ -43,7 +43,8 @@ function generateTaskList(taskList, parentPath = "", result = []) {
 function generateTaskDiv(taskName, taskPath, taskDetails = "") {
     const normalizedTaskName = normalize(taskName);
     const taskDiv = document.createElement("div");
-    taskDiv.id = normalizedTaskName;
+    // taskDiv.id = normalizedTaskName;
+    taskDiv.classList.add("task")
     taskDiv.setAttribute("data-path", taskPath);
     taskDiv.setAttribute("data-visible", "true");
 
@@ -60,11 +61,12 @@ function generateTaskDiv(taskName, taskPath, taskDetails = "") {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.id = "cb-" + normalizedTaskName;
+    // checkbox.id = "cb-" + normalizedTaskName;
+    checkbox.classList.add("check");
     checkbox.addEventListener("change", (event) => {
-        event.preventDefault()
+        event.preventDefault();
         event.stopPropagation();
-        handleCheckmarkClick(taskPath, taskDiv)
+        handleCheckmarkClick(taskPath, taskDiv);
     });
 
     // Calculate indentation based on the number of layers in the taskPath
@@ -75,7 +77,7 @@ function generateTaskDiv(taskName, taskPath, taskDetails = "") {
 
     const taskText = document.createElement("span");
     taskText.innerHTML = taskName;
-    taskText.classList.add("task-name")
+    taskText.classList.add("task-name");
 
     taskDiv.appendChild(collapsible);
     taskDiv.appendChild(checkbox);
@@ -87,8 +89,8 @@ function generateTaskDiv(taskName, taskPath, taskDetails = "") {
         const url = taskDetails.split(' ')[0];
 
         anchor = document.createElement("a")
-        anchor.href = url
-        anchor.target = "_blank"
+        anchor.href = url;
+        anchor.target = "_blank";
 
         anchor.innerHTML = `<svg class="QuickLink" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="1em" style="vertical-align: middle; margin-left: 2px;">
         <path
