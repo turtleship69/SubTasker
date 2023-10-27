@@ -12,7 +12,7 @@ Subtasker is a to-do list web application designed to help you stay organized an
 ## Technologies Used
 
 - Backend: Flask
-- Frontend: HTML, JavaScript
+- Frontend: HTML, CSS, JavaScript
 - Authentication: Hanko
 
 ## Self Hosting
