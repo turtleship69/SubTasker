@@ -10,6 +10,7 @@ from config import API_URL, public_keys, AUDIENCE
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex()
+app.config['JSON_SORT_KEYS'] = False
 
 
 # store session keys
@@ -24,7 +25,7 @@ def index():
     sesh = session.get("biscuit")
     if sesh == None or sesh not in sessions.keys():
         session.clear()
-        #if the user is still wuthenticated with hanko, auto log in
+        #if the user is still authenticated with hanko, auto log in
         #otherwise, ask to login
         return redirect("/auth2")
         # return render_template("home.html")
