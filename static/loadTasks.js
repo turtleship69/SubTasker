@@ -133,6 +133,38 @@ pathsList.forEach(element => console.log(element.toString()));
 addTaskDivsToTaskList(pathsList);
 
 
+//if there's a path after the url hash, only load tasks under that path
+const path_format = /^#([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})*$/;
+if (path_format.test(window.location.hash)) {
+
+    if (window.location.hash) {
+        path = window.location.hash.substring(1);
+        console.log("path: " + path);
+
+        length = path.split("/").length;
+        console.log("length: " + length);
+
+        //split the path by / and marge it with /subtasks/ and add a / to the end of the string
+        path = path.split("/").join("/subtasks/") + "/";
+
+
+        Array.from(document.getElementById("task-list").children).forEach(task => {
+            if (!task.getAttribute("data-path").startsWith(path)) {
+                task.remove();
+            } else {
+                // Get the 3rd child element
+                const thirdElement = task.children[2];
+                if (thirdElement && thirdElement.innerHTML) {
+                    // Remove one level of indent (4 "&nbsp;" characters)
+                    for (i = 0; i < length; i++) {
+                        thirdElement.innerHTML = thirdElement.innerHTML.replace(/^(&nbsp;){8}/, "");
+                    }
+                }
+            }
+        });
+    }
+}
+
 let tasksToCollapse = getLocal();
 tasksToCollapse.forEach(task => {
     hideTasks(task)
