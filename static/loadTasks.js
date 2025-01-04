@@ -113,7 +113,12 @@ function addTaskDivsToTaskList(pathsList, taskList) {
         const taskDiv = generateTaskDiv(taskName, taskPath, taskDetails);
 
         // Attach the click event listener to the taskDiv
-        taskDiv.addEventListener("click", () => handleTaskDivClick(taskDiv, taskPath));
+        // taskDiv.addEventListener("click", () => handleTaskDivClick(taskDiv, taskPath));
+        taskDiv.addEventListener("click", () => {
+            setTimeout(() => {
+                handleTaskDivClick(taskDiv, taskPath);
+            }, 20);
+        });
 
         taskListDiv.appendChild(taskDiv);
     });
@@ -141,11 +146,11 @@ if (path_format.test(window.location.hash)) {
         path = window.location.hash.substring(1);
         console.log("path: " + path);
 
-        length = path.split("/").length;
+        length = path.split("/").length -1;
         console.log("length: " + length);
 
         //split the path by / and marge it with /subtasks/ and add a / to the end of the string
-        path = path.split("/").join("/subtasks/") + "/";
+        path = path.split("/").join("/subtasks/");
 
 
         Array.from(document.getElementById("task-list").children).forEach(task => {
