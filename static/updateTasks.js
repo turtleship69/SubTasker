@@ -21,6 +21,18 @@ function handleTaskDivClick(taskDiv, taskPath) {
         if (taskDetails.details) { document.getElementById("details").value = taskDetails.details; } else { document.getElementById("details").value = ""; }
         if (taskDetails.image_url) { document.getElementById("image").value = taskDetails.image_url; } else { document.getElementById("image").value = ""; }
         document.getElementById("path").value = taskPath;
+
+        //if the focus button is pressed, change the page url to the current one but with a url hash
+        //take taskPath, remove all instances of "/subtasks", and add it to the url, making sure the page reloads
+        document.getElementById("focus").onclick = function () {
+            window.location.href = window.location.href.split("#")[0] + "#" + taskPath.split("/subtasks").join("");
+            //reload the page
+            window.location.reload();
+        }
+
+        document.getElementById("focus_new_window").onclick = function () {
+            window.open(window.location.href.split("#")[0] + "#" + taskPath.split("/subtasks").join(""));
+        }
     } else {
         // Clear the fields
         document.getElementById("name").value = "";
