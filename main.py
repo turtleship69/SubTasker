@@ -27,7 +27,7 @@ def index():
         session.clear()
         #if the user is still authenticated with hanko, auto log in
         #otherwise, ask to login
-        return redirect("/auth2")
+        return render_template("home.html")
         # return render_template("home.html")
     return render_template("todo.html", API_URL=API_URL)
 

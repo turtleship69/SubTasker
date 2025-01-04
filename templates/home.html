@@ -1,17 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Welcome to SubTasker!</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light dark" />
-    <link rel="stylesheet" href="/static/dark-mode.css">
+    <meta property="og:title" content="SubTasker - Your Simple To-Do List App">
+    <meta name="twitter:title" content="SubTasker - Your Simple To-Do List App">
+    <meta property="og:description" content="Stay organized with SubTasker, a better to-do list app designed for simple task management.">
+    <meta name="twitter:description" content="Stay organized with SubTasker, a better to-do list app designed for simple task management.">
+    <meta property="og:url" content="https://subtasker.com">
+    <title>SubTasker - Your Simple To-Do List</title>
+    <link rel="stylesheet" href="/static/dark-mode.css"> <!-- Add the dark mode CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #333;
+        }
+        p {
+            margin-bottom: 40px;
+            color: #666;
+            font-size: 1.1em;
+        }
+        .login-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #333333;
+                color: #ffffff;
+            }
+            .container {
+                background-color: #515151;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                color: #ffffff;
+            }
+            p {
+                color: #cccccc;
+            }
+            .login-btn {
+                background-color: #6ABF69;
+            }
+            .login-btn:hover {
+                background-color: #5AA65A;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <h1>Welcome to SubTasker!</h1>
-    <a href="/auth">Login</a>
-</body>
 
+    <div class="container">
+        <h1>Welcome to Subtasker</h1>
+        <p>Your minimalist to-do list app. Stay focused and organized with ease.</p>
+        <a href="/auth" class="login-btn">Login</a>
+    </div>
+
+</body>
 </html>
