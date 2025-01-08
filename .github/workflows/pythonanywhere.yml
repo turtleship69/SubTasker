@@ -3,16 +3,10 @@ on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: 'actions'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-          
-      - name: Re-Deploy Pythonanywhere Django API
-        uses: umuttopalak/pythonanywhere-deploy-action@v1.1.0
-        with:
-          host: 'www.pythonanywhere.com'
-          username: ${{ secrets.USERNAME }}
-          api_token: ${{ secrets.API_TOKEN }}
-          domain_name: ${{ secrets.DOMAIN_NAME }}
+
+      - name: Re-Deploy Pythonanywhere API
+        run: | 
+          python ./.github/workflows/pythonanywhere.py ${{ secrets.USERNAME }} ${{ secrets.API_TOKEN }} www.pythonanywhere.com'
