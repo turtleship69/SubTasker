@@ -8,29 +8,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Validate secrets
-        run: |
-          if [ -z "${{ secrets.USERNAME }}" ]; then
-            echo "Error: USERNAME is empty"
-            exit 1
-          else
-            echo "USERNAME starts with: ${${{ secrets.USERNAME }}:0:3}"
-          fi
-          
-          if [ -z "${{ secrets.API_TOKEN }}" ]; then
-            echo "Error: API_TOKEN is empty"
-            exit 1
-          else
-            echo "API_TOKEN starts with: ${${{ secrets.API_TOKEN }}:0:3}"
-          fi
-          
-          if [ -z "${{ secrets.DOMAIN_NAME }}" ]; then
-            echo "Error: DOMAIN_NAME is empty"
-            exit 1
-          else
-            echo "DOMAIN_NAME starts with: ${${{ secrets.DOMAIN_NAME }}:0:3}"
-          fi
           
       - name: Re-Deploy Pythonanywhere Django API
         uses: umuttopalak/pythonanywhere-deploy-action@v1.1.0
