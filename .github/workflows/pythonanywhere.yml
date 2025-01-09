@@ -11,4 +11,4 @@ jobs:
 
       - name: Re-Deploy Pythonanywhere API
         run: | 
-          python ./.github/workflows/pythonanywhere.py ${{ secrets.USERNAME }} ${{ secrets.API_TOKEN }} www.pythonanywhere.com'
+          python ./.github/workflows/pythonanywhere.py ${{ secrets.USERNAME }} ${{ secrets.API_TOKEN }} www.pythonanywhere.com
