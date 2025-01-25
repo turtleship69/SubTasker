@@ -16,7 +16,7 @@ app.config['JSON_SORT_KEYS'] = False
 startTime = datetime.now()
 
 @app.route('/uptime')
-def index():
+def uptime():
     return f"Server running for {datetime.now() - startTime}"
 
 # store session keys
