@@ -12,6 +12,12 @@ app = Flask(__name__)
 app.secret_key = secrets.token_hex()
 app.config['JSON_SORT_KEYS'] = False
 
+# server uptime
+startTime = datetime.now()
+
+@app.route('/uptime')
+def index():
+    return f"Server running for {datetime.now() - startTime}"
 
 # store session keys
 sessions = {}
